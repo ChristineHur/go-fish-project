@@ -12,8 +12,7 @@ import random
 # Hand is the cards that the user has 
 # Quartets are basically points
 
-
-#shows the structure of the player
+#REPRESENTS THE PLAYERS PLAY STRUCTURE 
 class Player():
     def __init__(self, name, hand, quartets=0):
         self.name = name
@@ -21,54 +20,39 @@ class Player():
         self.quartets = quartets
 
 # Computer player and their mover
-#
+# REPRESENTS THE COMPUTER ANF THEIR MOVEMENTS 
 class Computer(Player):
     def move(self, deck):
             return None
 
-# Human and their move
+# Human /you and their move
 class Human(Player):
     def move(self, deck):
-# TODO: Take in user input twice
-# First time to ask who to ask about the card you want to ask about
-# Second input will be the card number you want to ask about
+# TODO: Take in user input
         return None
     
-def create_deck():
+def go_fish():
     deck = Card.new_deck()
-    return deck
-
+    print(deck)
+    user = 
 
 # Give each player 7 cards to start with
-def give_hand(deck):
-    user = deck[0:7]
-    THECOMP = deck[7:14]
-    SecondaryComp = deck[14:21]
-    TheLastComp = deck[21:28]
-    Actualdeck = deck[28:52]
-    
-# Splice deck into      5 lists, 4 is the hands of each player, and last will be the actual "deck"
+
+def give_hand():
+    return None
+# Splice deck into 5 lists, 4 is the hands of each player, and last will be the actual "deck"
 
 def next_turn(current_turn):
     print("The turn right now is: " + current_turn)
     if current_turn == "user":
-        return "user"
-    if current_turn == "THECOMP":
-        return "THECOMP"
-    if current_turn == "THECOMP":
-        return "SecLastComp"
-    if current_turn == "SecLastComp":
-        return "TheLastComp"
-    if current_turn == "TheLastComp":
+        return "THE COMP"
+    if current_turn == "THE COMP":
+        return "SecondaryComp"
+    if current_turn == "Secondary omp":
+        return "The last comp :("
+    if current_turn == "The last comp :(":
         return "user"
  
-def player_move():
-    if comupter
-    
-
-def go_fish(): # This is the main function return eNone
-
-
 # Code that runs when script is called from terminal
 # ex: python my_card_game.py
 if __name__ == "__main__":
