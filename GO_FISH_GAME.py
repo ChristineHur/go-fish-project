@@ -1,6 +1,7 @@
 # Rename this file to the name of your game and delete this comment
-# Names: Nymphaea, Fahad, Christine, Yiisam, Dylan, Brendan, Daniella
+# Names: Nymphaea, jah, Christine, Dylan, Brendan, Daniella
 # Date: 7/26/2023
+#start
 
 # Import statements
 from card import Card
@@ -14,89 +15,80 @@ import random
 
 
 #shows the structure of the player
-class Player():
-    def __init__(self, name, hand, quartets=0):
-        self.name = name
-        self.hand = hand
-        self.quartets = quartets
+# class Player():
+#     def __init__(self, name, hand, quartets=0):
+#         self.name = name
+#         self.hand = hand
+#         self.quartets = quartets
 
-# Computer player and their mover
-#
-class Computer(Player):
-    def move(self, deck):
-# TODO: Automatically determine a move based on the current hand
-# Randomly determine a player to target
-            return None
 
 # Human and their move
-class Human(Player):
-    def move(self, deck):
-# TODO: Take in user input twice
-# First time to ask who to ask about the card you want to ask about
-# Second input will be the card number you want to ask about
-        return None
-    
+# class Human(Player):
+#      def move(self):
+#         print("These are the cards in your hand: " + self.hand)
+#         number = input("What card do you want to ask for? ")
+#         for value in self.hand:
+#             if value != number:
+#                 print("Choose from the values that you have.")
+
 def create_deck():
     deck = Card.new_deck()
     return deck
 
-# Count the number of human / computer players
-def human_count():
-    bean_count = input("Please enter the number of human players you would like to play against (0-4)")
-    if bean_count > 4 or bean_count < 0:
-        print("Error: Invalid Input")
-    else:
-        return bean_count
-
-def computer_count():
-    comp_count = input("Please enter the number of computer players you would like to play against (1-4)")
-    if comp_count > 4 or comp_count < 1:
-        print("Error: Invalid Input")
-    else:
-        return comp_count
-    
 # Give each player 7 cards to start with
-# Splice deck into 5 lists, 4 is the hands of each player, and last will be the actual "deck"
+# Splice deck into 3 lists, 7 card per hand with 2 players (1 user and 1 computer), and last will be the actual "deck"
 def give_hand(deck):
     user = deck[0:7]
     THECOMP = deck[7:14]
-    SecondaryComp = deck[14:21]
-    TheLastComp = deck[21:28]
-    Actualdeck = deck[28:52]
+    the_deck = deck[14:52]
+
+def player_move(user_hand, comp_hand, the_deck):
+    print("These are the cards in your hand: " + user_hand)
+    for value in user_hand:
+        number = input("What card do you want to ask for? ")
+        if value[0] != number:
+            print("Choose from the values that you have.")
+        else:
+            for index in range(len(comp_hand)):
+                if comp_hand[index][0] == value:
+                    print("The other has that card!")
+                    card = comp_hand.pop(index)
+                    user_hand.append(card)
+                else:
+                    print("The other doesn't have that card! Go fish!!")
+                    fish = the_deck.pop()
+                    user_hand.append(fish)
+
+
+
+def comp_move(com_hand, use_hand, deck_hand):
+    random_num = random.randint(len(com_hand))
+    number = com_hand[random_num][0]
+    print("The computer wants to know if you have " + number)
+    for index in range(len(use_hand)):
+        if use_hand[index][0] == number:
+            print("You have that card!")
+            card = use_hand.pop(index)
+            com_hand.append(card)
+        else:
+            print("Go fish! The computer has to pick up a card.")
+            ran = deck_hand.pop()
+            com_hand.append(ran)
+
+
+
+def check_for_quartet(hand): # Check to see if there is a quartet
+    for i in hand:
+        
+        return None
+
+def is_quartet(hand):
+    return None
     
-def first_turn(current_turn):
-    current_turn == "user"
-#
 
-def next_turn(current_turn):
-    print("The turn right now is: " + current_turn)
-    if current_turn == "user":
-        return "user"
-    if current_turn == "THECOMP":
-        return "THECOMP"
-    if current_turn == "THECOMP":
-        return "SecLastComp"
-    if current_turn == "SecLastComp":
-        return "TheLastComp"
-    if current_turn == "TheLastComp":
-        return "user"
-    print("The next turn will be: " + current_turn)
-
-def check_for_quartet(self):
-    for suit,value in self.hand.items(): 
-        if value == 4: # Create variable for number of cards
-            self.quartets.append(value)
-            print '%s completed the book of %s\'s.' % (self.name,value)
-            self.quartets += 1
-            del self.hand[value]
-    self.emptyCheck()
- 
-def player_move():
-    if 
-    
-
-def go_fish(): # This is the main function return eNone
-
+def go_fish(deck): # This is the main function 
+    user_quartet = 0
+    comp_quartet = 0
 
 # Code that runs when script is called from terminal
 # ex: python my_card_game.py
