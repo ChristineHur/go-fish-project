@@ -8,56 +8,33 @@ from card import Card
 import random
 
 
-# Program your game here!
-# Name is either player or Computer
-# Hand is the cards that the user has 
-# Quartets are basically points
-
-
-#shows the structure of the player
-# class Player():
-#     def __init__(self, name, hand, quartets=0):
-#         self.name = name
-#         self.hand = hand
-#         self.quartets = quartets
-
-
-# Human and their move
-# class Human(Player):
-#      def move(self):
-#         print("These are the cards in your hand: " + self.hand)
-#         number = input("What card do you want to ask for? ")
-#         for value in self.hand:
-#             if value != number:
-#                 print("Choose from the values that you have.")
-
-def create_deck():
+def create_deck(): # This creates a shuffled deck
     deck = Card.new_deck()
     return deck
 
 # Give each player 7 cards to start with
 # Splice deck into 3 lists, 7 card per hand with 2 players (1 user and 1 computer), and last will be the actual "deck"
-def give_hand(deck):
-    user = deck[0:7]
-    THECOMP = deck[7:14]
-    the_deck = deck[14:52]
+def give_hand(deck): # This splices the deck into 3 lists
+    user = deck[0:7] # This is the user's hand
+    THECOMP = deck[7:14] # This is the computer's hand
+    the_deck = deck[14:52] # This is the deck that cards will be taken from
 
-def player_move(user_hand, comp_hand, the_deck):
+def player_move(user_hand, comp_hand, the_deck): # This is what happens when it is the player's turn
     print("These are the cards in your hand: " + user_hand)
     for value in user_hand:
-        number = input("What card do you want to ask for? ")
-        if value[0] != number:
+        number = input("What card do you want to ask for? ") # Takes in the number the player wants to ask the computer about
+        if value[0] != number: # This is to check if the inputted number is in the player's hand
             print("Choose from the values that you have.")
-        else:
+        else: # This checks if the computer has the number card
             for index in range(len(comp_hand)):
-                if comp_hand[index][0] == value:
-                    print("The other has that card!")
-                    card = comp_hand.pop(index)
-                    user_hand.append(card)
-                else:
-                    print("The other doesn't have that card! Go fish!!")
-                    fish = the_deck.pop()
-                    user_hand.append(fish)
+                if comp_hand[index][0] == value: # This is if it does have it
+                    print("The computer has that card!")
+                    card = comp_hand.pop(index) # This takes the card out of the computer's hand
+                    user_hand.append(card) # This puts it in the players hand
+                else: # This is if the computer doesn't have it
+                    print("The computer doesn't have that card! Go fish!!")
+                    fish = the_deck.pop() # This takes the last card in the deck out
+                    user_hand.append(fish) # This appends it to the player's hand
 
 
 
@@ -76,7 +53,6 @@ def comp_move(com_hand, use_hand, deck_hand):
             com_hand.append(ran)
 
 
-
 def check_for_quartet(hand): # Check to see if there is a quartet
     for i in hand:
         
@@ -89,6 +65,14 @@ def is_quartet(hand):
 def go_fish(deck): # This is the main function 
     user_quartet = 0
     comp_quartet = 0
+    deck = create_deck()
+    give_hand(deck)
+    while user != 0:
+        player_move(user, THECOMP, the_deck)
+        comp_move(THECOMP, user, the_deck)
+        check_for_quartet(user)
+        check_for_quartet(THECOMP)
+
 
 # Code that runs when script is called from terminal
 # ex: python my_card_game.py
