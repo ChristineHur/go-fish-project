@@ -12,13 +12,6 @@ def create_deck(): # This creates a shuffled deck
     deck = Card.new_deck()
     return deck
 
-# Give each player 7 cards to start with
-# Splice deck into 3 lists, 7 card per hand with 2 players (1 user and 1 computer), and last will be the actual "deck"
-def give_hand(deck): # This splices the deck into 3 lists
-    user = deck[0:7] # This is the user's hand
-    THECOMP = deck[7:14] # This is the computer's hand
-    the_deck = deck[14:52] # This is the deck that cards will be taken from
-
 def player_move(user_hand, comp_hand, the_deck): # This is what happens when it is the player's turn
     print("These are the cards in your hand: " + user_hand)
     for value in user_hand:
@@ -38,7 +31,7 @@ def player_move(user_hand, comp_hand, the_deck): # This is what happens when it 
 
 
 
-def comp_move(com_hand, use_hand, deck_hand):
+def comp_move(com_hand, use_hand, deck_hand): # The same thing as player_move except on the computer's side
     random_num = random.randint(len(com_hand))
     number = com_hand[random_num][0]
     print("The computer wants to know if you have " + number)
@@ -54,20 +47,32 @@ def comp_move(com_hand, use_hand, deck_hand):
 
 
 def check_for_quartet(hand): # Check to see if there is a quartet
-    for i in hand:
-        
-        return None
+    # Use a dictionary, run over the list and check for each number
+    # If any of the dict values are equal to 4
+    dict = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0, 13: 0}
+    for card in hand:
+       dict[card.value] += 1
+    for x in dict.value(): # This checks if the value of the dictionary is equal to 4 (if the hand has 4 of the same card)
+        if x == 4:
+            return x # Returns the number that is a quartet
 
-def is_quartet(hand):
-    return None
+def remove_quartets(quartet, hand):
+    value = check_for_quartet(hand)
+    for i in len(hand - 1):
+        if i.value == value:
+            hand.pop(i)
+            quartet += 1
     
 
 def go_fish(deck): # This is the main function 
     user_quartet = 0
     comp_quartet = 0
     deck = create_deck()
-    give_hand(deck)
-    while user != 0:
+    # Splitting up the deck 3 times, 2 is the hands being played, 1 for the rest of the deck
+    user = deck[0:7] # This is the user's hand (7 cards)
+    THECOMP = deck[7:14] # This is the computer's hand (7 cards)
+    the_deck = deck[14:52] # This is the deck that cards will be taken from
+    while len(user) != 0:
         player_move(user, THECOMP, the_deck)
         comp_move(THECOMP, user, the_deck)
         check_for_quartet(user)
