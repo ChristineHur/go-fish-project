@@ -13,21 +13,36 @@ def create_deck(): # This creates a shuffled deck
     return deck
 
 def player_move(user_hand, comp_hand, the_deck): # This is what happens when it is the player's turn
-    print("These are the cards in your hand: " + user_hand)
-    for value in user_hand:
-        number = input("What card do you want to ask for? ") # Takes in the number the player wants to ask the computer about
-        if value[0] != number: # This is to check if the inputted number is in the player's hand
-            print("Choose from the values that you have.")
-        else: # This checks if the computer has the number card
-            for index in range(len(comp_hand)):
-                if comp_hand[index][0] == value: # This is if it does have it
+    print(f"These are the cards in your hand: {user_hand}")
+    number = int(input("What card do you want to ask for? ")) # Takes in the number the player wants to ask the computer about
+    for card in user_hand:
+        if number == card.value:          
+            for index in range(len(comp_hand)): # This checks if the computer has the number card
+                if comp_hand.value == number: # This is if it does have it
                     print("The computer has that card!")
-                    card = comp_hand.pop(index) # This takes the card out of the computer's hand
+                    card = comp_hand.pop(index) # This takes the card out of the computer's hand                        
                     user_hand.append(card) # This puts it in the players hand
                 else: # This is if the computer doesn't have it
                     print("The computer doesn't have that card! Go fish!!")
                     fish = the_deck.pop() # This takes the last card in the deck out
                     user_hand.append(fish) # This appends it to the player's hand
+        else: # This is to check if the inputted number is in the player's hand
+            print("Choose from the values you have.")
+
+def player_move_2(user_hand, comp_hand, the_deck):
+    print(f"These are the cards in your hand: {user_hand}")
+    # Ask for input
+    number = input("What card do you want to ask for?")
+    # If there is a card in user_hand with number as its value...
+    if any(lambda x : x.value == number for card in user_hand):
+        if any(lambda i : i.value == number for cardi in comp_hand):
+            print("The computer has that card!")
+            # Check index where computer has it, pop that index, append to card
+        else:
+            print("Go fish! The computer doesm't have that card.")
+    else:
+        print("Please choose a number that you actually have.")
+
 
 
 
@@ -52,13 +67,13 @@ def check_for_quartet(hand): # Check to see if there is a quartet
     dict = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0, 13: 0}
     for card in hand:
        dict[card.value] += 1
-    for x in dict.value(): # This checks if the value of the dictionary is equal to 4 (if the hand has 4 of the same card)
+    for x in dict.values(): # This checks if the value of the dictionary is equal to 4 (if the hand has 4 of the same card)
         if x == 4:
             return x # Returns the number that is a quartet
 
-def remove_quartets(quartet, hand):
+def remove_quartets(quartet, hand): # This will remove quartets and up the score of the player
     value = check_for_quartet(hand)
-    for i in len(hand - 1):
+    for i in hand:
         if i.value == value:
             hand.pop(i)
             quartet += 1
@@ -73,13 +88,18 @@ def go_fish(deck): # This is the main function
     THECOMP = deck[7:14] # This is the computer's hand (7 cards)
     the_deck = deck[14:52] # This is the deck that cards will be taken from
     while len(user) != 0:
+        remove_quartets(user_quartet, user)
+        remove_quartets(comp_quartet, THECOMP)
         player_move(user, THECOMP, the_deck)
         comp_move(THECOMP, user, the_deck)
-        check_for_quartet(user)
-        check_for_quartet(THECOMP)
+    if user_quartet > comp_quartet:
+        print("Congrats! You win!")
+    else:
+        print("You lost! There's always next time.")
 
 
 # Code that runs when script is called from terminal
 # ex: python my_card_game.py
-    if __name__ == "__main__":
-        go_fish()
+if __name__ == "__main__":
+    deck = create_deck()
+    go_fish(deck)
