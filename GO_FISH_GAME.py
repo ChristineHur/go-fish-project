@@ -32,16 +32,26 @@ def player_move(user_hand, comp_hand, the_deck): # This is what happens when it 
 def player_move_2(user_hand, comp_hand, the_deck):
     print(f"These are the cards in your hand: {user_hand}")
     # Ask for input
+    loop = True
     number = input("What card do you want to ask for?")
     # If there is a card in user_hand with number as its value...
-    if any(lambda x : x.value == number for card in user_hand):
-        if any(lambda i : i.value == number for cardi in comp_hand):
-            print("The computer has that card!")
-            # Check index where computer has it, pop that index, append to card
+    while loop == True:
+        if any(lambda x : x.value == number for card in user_hand):
+            if any(lambda i : i.value == number for cardi in comp_hand):
+                print("The computer has that card!")
+                for i in range(len(comp_hand)):
+                    if comp_hand[i][0] == number:
+                        thecard = comp_hand.pop(i)
+                        user_hand.append(thecard)
+                        loop = False
+                # Check index where computer has it, pop that index, append to card
+            else:
+                print("Go fish! The computer doesm't have that card.")
+                gofishes = the_deck.pop()
+                user_hand.append(gofishes)
+                loop = False
         else:
-            print("Go fish! The computer doesm't have that card.")
-    else:
-        print("Please choose a number that you actually have.")
+            print("Please choose a number that you actually have.")
 
 
 
@@ -51,7 +61,7 @@ def comp_move(com_hand, use_hand, deck_hand): # The same thing as player_move ex
     number = com_hand[random_num][0]
     print("The computer wants to know if you have " + number)
     for index in range(len(use_hand)):
-        if use_hand[index][0] == number:
+        if any(lambda i : i.value == number for cardi in use_hand):
             print("You have that card!")
             card = use_hand.pop(index)
             com_hand.append(card)
@@ -87,10 +97,13 @@ def go_fish(deck): # This is the main function
     user = deck[0:7] # This is the user's hand (7 cards)
     THECOMP = deck[7:14] # This is the computer's hand (7 cards)
     the_deck = deck[14:52] # This is the deck that cards will be taken from
+    print("Welcome to go fish! Please know that if you want to select a J, Q, K or A, you will have to write the input as 11, 12, 13, or 1 respectively.")
     while len(user) != 0:
         remove_quartets(user_quartet, user)
         remove_quartets(comp_quartet, THECOMP)
-        player_move(user, THECOMP, the_deck)
+        print(user)
+        print(THECOMP)
+        player_move_2(user, THECOMP, the_deck)
         comp_move(THECOMP, user, the_deck)
     if user_quartet > comp_quartet:
         print("Congrats! You win!")

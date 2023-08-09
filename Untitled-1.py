@@ -14,3 +14,8 @@ def player_move(user_hand, comp_hand, the_deck):
                     print("The other doesn't have that card! Go fish!!")
                     fish = the_deck.pop()
                     user_hand.append(fish)
+
+
+list = [0, 1, 2, 3]
+for i in range(len(list)):
+    print(i)
