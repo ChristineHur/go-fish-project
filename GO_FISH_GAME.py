@@ -11,7 +11,7 @@ import random
 def create_deck(): # This creates a shuffled deck
     deck = Card.new_deck()
     return deck
-
+"""
 def player_move(user_hand, comp_hand, the_deck): # This is what happens when it is the player's turn
     print(f"These are the cards in your hand: {user_hand}")
     number = int(input("What card do you want to ask for? ")) # Takes in the number the player wants to ask the computer about
@@ -28,22 +28,22 @@ def player_move(user_hand, comp_hand, the_deck): # This is what happens when it 
                     user_hand.append(fish) # This appends it to the player's hand
         else: # This is to check if the inputted number is in the player's hand
             print("Choose from the values you have.")
+"""
 
 def player_move_2(user_hand, comp_hand, the_deck):
     print(f"These are the cards in your hand: {user_hand}")
     # Ask for input
     loop = True
-    number = input("What card do you want to ask for?")
     # If there is a card in user_hand with number as its value...
     while loop == True:
-        if any(lambda x : x.value == number for card in user_hand):
-            if any(lambda i : i.value == number for cardi in comp_hand):
+        number = int(input("What card do you want to ask for? "))
+        if any(card.value == number for card in user_hand):
+            if any(cardi.value == number for cardi in comp_hand):
                 print("The computer has that card!")
-                for i in range(len(comp_hand)):
-                    if comp_hand[i][0] == number:
-                        thecard = comp_hand.pop(i)
-                        user_hand.append(thecard)
-                        loop = False
+                for card in comp_hand:
+                    if card.value == number:
+                        comp_hand.pop(comp_hand.index(card))
+                        user_hand.append(card)
                 # Check index where computer has it, pop that index, append to card
             else:
                 print("Go fish! The computer doesm't have that card.")
@@ -57,9 +57,22 @@ def player_move_2(user_hand, comp_hand, the_deck):
 
 
 def comp_move(com_hand, use_hand, deck_hand): # The same thing as player_move except on the computer's side
-    random_num = random.randint(len(com_hand))
-    number = com_hand[random_num][0]
-    print("The computer wants to know if you have " + number)
+    loop = True
+    while loop:
+        random_num = random.randint(0, len(com_hand)-1)
+        number = com_hand[random_num].value
+        print(f"The computer wants to know if you have {number}.")
+        if any(cardi.value == number for cardi in use_hand):
+            print("You have that card!")
+            for card in use_hand:
+                if card.value == number:
+                    com_hand.append(use_hand.pop(use_hand.index(card)))
+              # Check index where computer has it, pop that index, append to card
+        else:
+            print("Go fish! The computer has to pick up a card.")
+            com_hand.append(deck_hand.pop())
+            loop = False
+    """
     for index in range(len(use_hand)):
         if any(lambda i : i.value == number for cardi in use_hand):
             print("You have that card!")
@@ -69,7 +82,7 @@ def comp_move(com_hand, use_hand, deck_hand): # The same thing as player_move ex
             print("Go fish! The computer has to pick up a card.")
             ran = deck_hand.pop()
             com_hand.append(ran)
-
+    """
 
 def check_for_quartet(hand): # Check to see if there is a quartet
     # Use a dictionary, run over the list and check for each number
@@ -83,9 +96,9 @@ def check_for_quartet(hand): # Check to see if there is a quartet
 
 def remove_quartets(quartet, hand): # This will remove quartets and up the score of the player
     value = check_for_quartet(hand)
-    for i in hand:
-        if i.value == value:
-            hand.pop(i)
+    for card in hand:
+        if card.value == value:
+            hand.pop(hand.index(card))
             quartet += 1
     
 
