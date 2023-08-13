@@ -1,21 +1,9 @@
-def player_move(user_hand, comp_hand, the_deck):
-    print("These are the cards in your hand: " + user_hand)
-    number = input("What card do you want to ask for? ")
-    for value in user_hand:
-        if value != number:
-            print("Choose from the values that you have.")
-        else:
-            for index in range(len(comp_hand)):
-                if comp_hand[index][0] == value:
-                    print("The other has that card!")
-                    card = comp_hand.pop(index)
-                    user_hand.append(card)
-                else:
-                    print("The other doesn't have that card! Go fish!!")
-                    fish = the_deck.pop()
-                    user_hand.append(fish)
-
-
-list = [0, 1, 2, 3]
-for i in range(len(list)):
-    print(i)
+def check_for_quartet(hand): # Check to see if there is a quartet
+    # Use a dictionary, run over the list and check for each number
+    # If any of the dict values are equal to 4
+    dict = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0, 13: 0}
+    for card in hand:
+       dict[card.value] += 1
+    for x in dict.values(): # This checks if the value of the dictionary is equal to 4 (if the hand has 4 of the same card)
+        if x == 4:
+            return x # Returns the number that is a quartet
