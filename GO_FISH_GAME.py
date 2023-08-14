@@ -51,7 +51,7 @@ def player_move_2(user_hand, comp_hand, the_deck):
                         temp_list.append(card)
                     else:
                         user_hand.append(card)
-                comp_hand[:] == temp_list
+                comp_hand[:] = temp_list
                 print("")
             else:
                 print("Go fish! The computer doesm't have that card.")
@@ -88,7 +88,7 @@ def comp_move(com_hand, use_hand, deck_hand): # The same thing as player_move ex
                     temp_list.append(card)
                 else:
                     com_hand.append(card)
-            use_hand[:] == temp_list
+            use_hand[:] = temp_list
             print("")
          #   for card in use_hand:
          #       if card.value == number:
