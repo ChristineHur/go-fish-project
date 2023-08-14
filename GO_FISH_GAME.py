@@ -44,11 +44,15 @@ def player_move_2(user_hand, comp_hand, the_deck):
         if any(card.value == int(number) for card in user_hand): # If there is a card in user_hand with number as its value...
             if any(cardi.value == int(number) for cardi in comp_hand):
                 print("The computer has that card!")
+                temp_list = []
+               # comp_hand[:] = [card for card in comp_hand if card.value != number]
                 for card in comp_hand:
-                    if card.value == number:
-                        comp_hand.pop(comp_hand.index(card))
+                    if card.value != number:
+                        temp_list.append(card)
+                    else:
                         user_hand.append(card)
-                # Check index where computer has it, pop that index, append to card
+                comp_hand[:] == temp_list
+                print("")
             else:
                 print("Go fish! The computer doesm't have that card.")
                 gofishes = the_deck.pop()
@@ -77,10 +81,19 @@ def comp_move(com_hand, use_hand, deck_hand): # The same thing as player_move ex
         print(f"The computer wants to know if you have {number}.")
         if any(cardi.value == number for cardi in use_hand):
             print("You have that card!")
+            temp_list = []
+               # comp_hand[:] = [card for card in comp_hand if card.value != number]
             for card in use_hand:
-                if card.value == number:
-                    com_hand.append(use_hand.pop(use_hand.index(card)))
-                    print("")
+                if card.value != number:
+                    temp_list.append(card)
+                else:
+                    com_hand.append(card)
+            use_hand[:] == temp_list
+            print("")
+         #   for card in use_hand:
+         #       if card.value == number:
+         #           com_hand.append(use_hand.pop(use_hand.index(card)))
+         #       print("")
               # Check index where computer has it, pop that index, append to card
         else:
             print("Go fish! The computer has to pick up a card.")
@@ -132,9 +145,6 @@ def go_fish(deck): # This is the main function
     user = deck[:7] # This is the user's hand (7 cards)
     THECOMP = deck[7:14] # This is the computer's hand (7 cards)
     the_deck = deck[14:] # This is the deck that cards will be taken from
-    print(user)
-    print(THECOMP)
-    print(the_deck)
     print("Welcome to go fish! Please know that if you want to select a J, Q, K or A, you will have to write the input as 11, 12, 13, or 1 respectively.")
     print("")
     while len(user) + len(THECOMP) != 0 or len(the_deck) > 0:
