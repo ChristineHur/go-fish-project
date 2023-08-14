@@ -1,7 +1,7 @@
 # Rename this file to the name of your game and delete this comment
 # Names: Nymphaea, jah, Christine, Dylan, Daniella
 # Date: 7/26/2023
-#start
+# Start
 
 # Import statements
 from card import Card
@@ -146,6 +146,7 @@ def go_fish(deck): # This is the main function
     THECOMP = deck[7:14] # This is the computer's hand (7 cards)
     the_deck = deck[14:] # This is the deck that cards will be taken from
     print("Welcome to go fish! Please know that if you want to select a J, Q, K or A, you will have to write the input as 11, 12, 13, or 1 respectively.")
+    print("If you get a card from the computer, you get to ask again. If the compuer gets a card from you, the computer gets to ask again.")
     print("")
     while len(user) + len(THECOMP) != 0 or len(the_deck) > 0:
         print(f"You currently have {user_quartet} pile(s)!")
