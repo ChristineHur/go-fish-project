@@ -32,16 +32,16 @@ def player_move(user_hand, comp_hand, the_deck): # This is what happens when it 
 """
 
 def player_move_2(user_hand, comp_hand, the_deck):
-    print(f"These are the cards in your hand: {user_hand}")
-    # Ask for input
     loop = True
-    # If there is a card in user_hand with number as its value...
-    while loop == True:
+    user_quartet = 0
+    while loop == True and len(user_hand) > 0:
+        # Ask for input
+        print(f"These are the cards in your hand: {user_hand}")
         try: number = int(input("What card do you want to ask for? "))
         except ValueError: 
             print("That's not a number, please input a number.")
             continue
-        if any(card.value == int(number) for card in user_hand):
+        if any(card.value == int(number) for card in user_hand): # If there is a card in user_hand with number as its value...
             if any(cardi.value == int(number) for cardi in comp_hand):
                 print("The computer has that card!")
                 for card in comp_hand:
@@ -59,13 +59,19 @@ def player_move_2(user_hand, comp_hand, the_deck):
         else:
             print("Please choose a number that you actually have.")
             print("")
+        if remove_quartets(user_hand):
+            print("You got a quartet!")
+            user_quartet += 1
+            # Check if that card complets a quartet
+    return user_quartet
 
 
 
 
 def comp_move(com_hand, use_hand, deck_hand): # The same thing as player_move except on the computer's side
     loop = True
-    while loop:
+    comp_quartet = 0 #I'm not sure this is necessary (python might default it to 0 automatically), but for clarity
+    while loop and len(com_hand) > 0:
         random_num = random.randint(0, len(com_hand)-1)
         number = com_hand[random_num].value
         print(f"The computer wants to know if you have {number}.")
@@ -81,6 +87,11 @@ def comp_move(com_hand, use_hand, deck_hand): # The same thing as player_move ex
             print("")
             com_hand.append(deck_hand.pop())
             loop = False
+        if remove_quartets(com_hand):
+            print("The computer got a quartet!")
+            comp_quartet += 1
+            # Check if that card complets a quartet
+    return comp_quartet
     """
     for index in range(len(use_hand)):
         if any(lambda i : i.value == number for cardi in use_hand):
@@ -104,15 +115,12 @@ def check_for_quartet(hand): # Check to see if there is a quartet
             return key # Returns the number that is a quartet
     return False
 
-def remove_quartets(quartet, hand): # This will remove quartets and up the score of the player
+def remove_quartets(hand): # This will remove quartets and up the score of the player
     thenumber = check_for_quartet(hand)
     if thenumber != False:
-        quartet += 1
-        print(f"{hand=}".split('=')[0] +  " got a quartet!")
-        for card in hand:
-            if card.value == thenumber:
-                hand.pop(hand.index(card))
-    return quartet
+        hand[:] = [card for card in hand if card.value != thenumber]
+        return True
+    return False
 
 
 
@@ -129,14 +137,12 @@ def go_fish(deck): # This is the main function
     print(the_deck)
     print("Welcome to go fish! Please know that if you want to select a J, Q, K or A, you will have to write the input as 11, 12, 13, or 1 respectively.")
     print("")
-    while len(user) != 0:
-        user_quartet = remove_quartets(user_quartet, user)
-        comp_quartet = remove_quartets(comp_quartet, THECOMP)
+    while len(user) + len(THECOMP) != 0 or len(the_deck) > 0:
         print(f"You currently have {user_quartet} pile(s)!")
         print("The computer currently has " + str(comp_quartet) + " pile(s)!")
         print("")
-        player_move_2(user, THECOMP, the_deck)
-        comp_move(THECOMP, user, the_deck)
+        user_quartet += player_move_2(user, THECOMP, the_deck)
+        comp_quartet += comp_move(THECOMP, user, the_deck)
     if user_quartet > comp_quartet:
         print("Congrats! You win!")
     else:
